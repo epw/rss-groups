@@ -38,7 +38,8 @@ def feed():
 
     add_entry(fg, "1", "First Post", "First post full of content!")
     add_entry(fg, "2", "New Day", "Stuff happens when the Sun comes up")
-    add_entry(fg, "3", "Another Page", "There is full <b>HTML/b> here.")
+    add_entry(fg, "3", "Another Page", "There is full <b>HTML</b> here.")
+    add_entry(fg, "4", "New Post", "When will this one be<p>noticed?")
 
 #    code.interact(local={"args": args, "fg": fg})
     print(fg.rss_str().decode("utf-8"))
