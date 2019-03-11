@@ -2,6 +2,7 @@
 
 import datetime
 import PyRSS2Gen as RSS2
+import pytz
 
 
 def rss2_item_from_entry(entry):
@@ -19,11 +20,14 @@ def rss2_item_from_entry(entry):
             entry.published_parsed[2],
             entry.published_parsed[3],
             entry.published_parsed[4],
-            entry.published_parsed[5]))
+            entry.published_parsed[5]).replace(tzinfo=pytz.utc))
 
 
-def feedparser_to_rss2(title, link, description, entries):
+def feedparser_to_rss2(title, link, description, entries, rssentries):
     items = [rss2_item_from_entry(entry) for entry in entries]
+    items.extend(rssentries)
+    items.sort(key=lambda i: i.pubDate)
+    items.reverse()
     rss = RSS2.RSS2(
         title = title,
         link = link,

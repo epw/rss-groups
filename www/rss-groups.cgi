@@ -2,6 +2,7 @@
 
 import feedparser
 import rss_io
+import blogger
 
 import cgi, cgitb
 cgitb.enable()
@@ -16,11 +17,18 @@ def rss_groups():
     entries = parsed.entries
     parsed = feedparser.parse("http://feeds.arstechnica.com/arstechnica/index")
     entries.extend(parsed.entries)
-    entries.sort(key=lambda e: e.published_parsed)
+
+    try:
+        rssentries = blogger.rss()
+    except blogger.client.AccessTokenRefreshError:
+        print ('<?xml version="1.0"><error>The credentials have been revoked or expired, please re-run'
+               'the application to re-authorize</error>')
+        exit()
+    
     xml = rss_io.feedparser_to_rss2("Combined Hackaday and Ars Technica",
                                     "https://eric.willisson.org/rss-groups/rss-groups.cgi",
                                     "First try at a combined feed",
-                                    entries)
+                                    entries, rssentries)
     # DEEPLY BROKEN! Should actually handle UTF-8!
     print(xml.encode("ascii", "ignore").decode("ascii", "ignore"))
 
