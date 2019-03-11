@@ -6,9 +6,9 @@ import PyRSS2Gen
 
 def feedparser_to_pyrss2gen(parsed):
     items = [PyRSS2Gen.RSSItem(
-        title = entry.title,
+        title = str(entry.title),
         link = entry.link,
-        description = entry.content[0].value,
+        description = str(entry.content[0].value),
 #        description = "entry.content[0]",
         guid = entry.link,
         pubDate = datetime.datetime(
@@ -20,12 +20,10 @@ def feedparser_to_pyrss2gen(parsed):
             entry.published_parsed[5]))
              for entry in parsed.entries]
     rss = PyRSS2Gen.RSS2(
-        title = parsed.feed.title,
+        title = str(parsed.feed.title),
         link = parsed.feed.link,
-        description = parsed.feed.description,
+        description = str(parsed.feed.description),
 #        description = "parsed.feed.description",
         lastBuildDate = datetime.datetime.now(),
         items = items)
     return rss.to_xml(encoding="utf-8")
-
-             
