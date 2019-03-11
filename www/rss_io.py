@@ -7,6 +7,7 @@ import PyRSS2Gen
 def feedparser_to_pyrss2gen(parsed):
     items = [PyRSS2Gen.RSSItem(
         title = str(entry.title),
+#        title = entry.title,
         link = entry.link,
         description = str(entry.content[0].value),
 #        description = "entry.content[0]",
@@ -21,6 +22,7 @@ def feedparser_to_pyrss2gen(parsed):
              for entry in parsed.entries]
     rss = PyRSS2Gen.RSS2(
         title = str(parsed.feed.title),
+#        title = "parsed.feed.title",
         link = parsed.feed.link,
         description = str(parsed.feed.description),
 #        description = "parsed.feed.description",
