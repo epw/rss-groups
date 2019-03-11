@@ -1,0 +1,6 @@
+TODO:
+
+- Get Blogger authentication working right (and what does that actually mean?)
+- Make useful author bylines that indicate the origin properly
+- Turn into actual server where you can add and delete
+- Handle authentication for group members
