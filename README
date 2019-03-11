@@ -4,3 +4,4 @@ TODO:
 - Make useful author bylines that indicate the origin properly
 - Turn into actual server where you can add and delete
 - Handle authentication for group members
+- Unicode support
