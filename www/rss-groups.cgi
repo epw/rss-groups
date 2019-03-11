@@ -12,9 +12,11 @@ def rss_groups():
 
     print("Content-Type: text/xml\n")
 
-#    parsed = feedparser.parse("https://hackaday.com/blog/feed/")
+    parsed = feedparser.parse("https://hackaday.com/blog/feed/")
     parsed = feedparser.parse("http://feeds.arstechnica.com/arstechnica/index")
-    print(rss_io.feedparser_to_pyrss2gen(parsed))
+    xml = rss_io.feedparser_to_pyrss2gen(parsed)
+    # DEEPLY BROKEN! Should actually handle UTF-8!
+    print(xml.encode("ascii", "ignore").decode("ascii", "ignore"))
 
 
 def main():
