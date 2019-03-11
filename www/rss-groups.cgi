@@ -1,23 +1,19 @@
 #! /usr/bin/env python3
 
-import sqlite3
 import feedparser
+import rss_io
 
 import cgi, cgitb
 cgitb.enable()
 
 
-DATABASE = "/var/www/db/rss.sqlite"
-
-
 def rss_groups():
     args = cgi.FieldStorage()
 
-    print "Content-Type: text/html\n"
+    print("Content-Type: text/xml\n")
 
-    db_connection = sqlite3.connect(DATABASE)
-    cursor = db_connection.cursor()
-    cursor.execute("CREATE TA
+    parsed = feedparser.parse("https://hackaday.com/blog/feed/")
+    print(rss_io.feedparser_to_pyrss2gen(parsed))
 
 
 def main():
