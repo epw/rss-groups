@@ -26,6 +26,6 @@ def feedparser_to_pyrss2gen(parsed):
 #        description = "parsed.feed.description",
         lastBuildDate = datetime.datetime.now(),
         items = items)
-    return rss.to_xml()
+    return rss.to_xml(encoding="utf-8")
 
              
