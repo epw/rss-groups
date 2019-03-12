@@ -1,9 +1,10 @@
 TODO:
 
 - Get Blogger authentication working right (and what does that actually mean?)
-- Make useful author bylines that indicate the origin properly
 - Turn into actual server where you can add and delete
 - Handle authentication for group members
 
+DONE
+- Make useful author bylines that indicate the origin properly (it's OK)
 - Unicode support: https://stackoverflow.com/questions/9322410/set-encoding-in-python-3-cgi-scripts
 
