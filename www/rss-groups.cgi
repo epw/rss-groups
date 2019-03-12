@@ -3,10 +3,15 @@
 import feedparser
 import rss_io
 import blogger
-import locale
 
 import cgi, cgitb
 cgitb.enable()
+
+
+def add_source(entry, parsed):
+    entry.publisher = parsed.feed.title
+    return entry
+
 
 def rss_groups():
     args = cgi.FieldStorage()
@@ -14,9 +19,9 @@ def rss_groups():
     print("Content-Type: text/xml; charset=utf-8\n")
 
     parsed = feedparser.parse("https://hackaday.com/blog/feed/")
-    entries = parsed.entries
+    entries = [add_source(entry, parsed) for entry in parsed.entries]
     parsed = feedparser.parse("http://feeds.arstechnica.com/arstechnica/index")
-    entries.extend(parsed.entries)
+    entries.extend([add_source(entry, parsed) for entry in parsed.entries])
 
     try:
         rssentries = blogger.rss()

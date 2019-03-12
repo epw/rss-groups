@@ -12,7 +12,7 @@ def rss2_item_from_entry(entry):
         link = entry.link,
         description = entry.content[0].value,
 #        description = "entry.content[0]",
-        author = entry.author + " <email@example.com>",
+        author = entry.publisher + " - " + entry.author,
         guid = entry.link,
         pubDate = datetime.datetime(
             entry.published_parsed[0],

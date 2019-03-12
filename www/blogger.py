@@ -7,7 +7,6 @@ import datetime
 import dateparser
 import pytz
 
-import locale
 
 def rss():
   # Authenticate and construct service.
@@ -31,18 +30,11 @@ def rss():
   for post in posts["items"]:
     items.append(RSS2.RSSItem(
       title=post["title"],
-      author=post["author"]["displayName"],
+      author=blog["name"] + " - " + post["author"]["displayName"],
       link=post["url"],
       description=post["content"],
       guid=post["url"],
       pubDate=dateparser.parse(post["published"]).replace(tzinfo=pytz.utc)))
 
-  items.append(RSS2.RSSItem(
-    title="Information",
-    author="The System",
-    link="http://example.com",
-    description="The value of the preferred encoding is " + locale.getpreferredencoding(),
-    guid="http://example.com",
-    pubDate=datetime.datetime.now().replace(tzinfo=pytz.utc)))
   return items
 
