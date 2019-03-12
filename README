@@ -4,4 +4,6 @@ TODO:
 - Make useful author bylines that indicate the origin properly
 - Turn into actual server where you can add and delete
 - Handle authentication for group members
-- Unicode support
+
+- Unicode support: https://stackoverflow.com/questions/9322410/set-encoding-in-python-3-cgi-scripts
+

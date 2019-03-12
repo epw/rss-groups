@@ -3,15 +3,15 @@
 import feedparser
 import rss_io
 import blogger
+import locale
 
 import cgi, cgitb
 cgitb.enable()
 
-
 def rss_groups():
     args = cgi.FieldStorage()
 
-    print("Content-Type: text/xml\n")
+    print("Content-Type: text/xml; charset=utf-8\n")
 
     parsed = feedparser.parse("https://hackaday.com/blog/feed/")
     entries = parsed.entries
@@ -29,8 +29,11 @@ def rss_groups():
                                     "https://eric.willisson.org/rss-groups/rss-groups.cgi",
                                     "First try at a combined feed",
                                     entries, rssentries)
-    # DEEPLY BROKEN! Should actually handle UTF-8!
-    print(xml.encode("ascii", "ignore").decode("ascii", "ignore"))
+
+    # If you're getting weird UnicodeDecode errors, then use this temporarily.
+    # You'll have to edit the server to change the environment variables to LANG=en_US.UTF-8
+    #    print(xml.encode("ascii", "namereplace").decode("ascii", "namereplace"))
+    print(xml)
 
 
 def main():
