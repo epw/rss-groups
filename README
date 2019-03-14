@@ -3,6 +3,9 @@ TODO:
 - Get Blogger authentication working right (and what does that actually mean?)
 - Add adding and deletion of users to groups
 - Handle authentication for group members
+- See how you can add Like buttons. Maybe group-specific images
+  that are at like rss-image.cgi and wrap a link aeound that
+  increments tgen redirects back?
 
 DONE
 - Make useful author bylines that indicate the origin properly (it's OK)
