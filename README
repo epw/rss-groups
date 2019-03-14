@@ -1,7 +1,7 @@
 TODO:
 
 - Get Blogger authentication working right (and what does that actually mean?)
-- Turn into actual server where you can add and delete
+- Add adding and deletion of users to groups
 - Handle authentication for group members
 
 DONE

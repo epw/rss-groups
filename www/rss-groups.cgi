@@ -3,6 +3,7 @@
 import feedparser
 import rss_io
 import blogger
+import group.group
 
 import cgi, cgitb
 cgitb.enable()
@@ -18,10 +19,12 @@ def rss_groups():
 
     print("Content-Type: text/xml; charset=utf-8\n")
 
-    parsed = feedparser.parse("https://hackaday.com/blog/feed/")
-    entries = [add_source(entry, parsed) for entry in parsed.entries]
-    parsed = feedparser.parse("http://feeds.arstechnica.com/arstechnica/index")
-    entries.extend([add_source(entry, parsed) for entry in parsed.entries])
+    group_id = args.getfirst("id", 1)
+    rssgroup = group.group.get_group(group_id)
+    entries = []
+    for user in rssgroup.users:
+        parsed = feedparser.parse(rssgroup.users[user].rss)
+        entries.extend([add_source(entry, parsed) for entry in parsed.entries])
 
     try:
         rssentries = blogger.rss()
@@ -30,15 +33,18 @@ def rss_groups():
                'the application to re-authorize</error>')
         exit()
     
-    xml = rss_io.feedparser_to_rss2("Combined Hackaday and Ars Technica",
-                                    "https://eric.willisson.org/rss-groups/rss-groups.cgi",
+    xml = rss_io.feedparser_to_rss2(rssgroup.name,
+                                    "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}".format(group_id),
                                     "First try at a combined feed",
                                     entries, rssentries)
 
     # If you're getting weird UnicodeDecode errors, then use this temporarily.
     # You'll have to edit the server to change the environment variables to LANG=en_US.UTF-8
     #    print(xml.encode("ascii", "namereplace").decode("ascii", "namereplace"))
-    print(xml)
+
+    print(xml.split("\n")[0])
+    print("<?xml-stylesheet type='text/css' href='style.css' ?>")
+    print(xml.split("\n", 1)[1])
 
 
 def main():

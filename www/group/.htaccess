@@ -1,0 +1,6 @@
+AuthType Basic
+AuthName "Restricted Files"
+# (Following line optional)
+AuthBasicProvider file
+AuthUserFile /home/eric/projects/rss-groups/passwords
+Require user eric
