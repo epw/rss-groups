@@ -20,9 +20,13 @@ class Group(object):
         self.users[user.user_id] = user
 
 
-def get_group(group_id):
+def connect():
     conn = psycopg2.connect("dbname=rssgroups user='www-data'")
-    cursor = conn.cursor()
+    return conn.cursor(), conn
+
+        
+def get_group(group_id):
+    cursor, _ = connect()
     cursor.execute("SELECT id, name FROM groups WHERE id = %s", (group_id,))
     row = cursor.fetchone()
     group = Group(row[0], row[1])

@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 
 import group
+import json
+import sys
 
 import cgi, cgitb
 cgitb.enable()
@@ -17,20 +19,26 @@ def member_table(group_id):
 
 
 def page():
-    print("Content-Type: text/html\n")
+    print("Content-Type: application/json\n")
 
     args = cgi.FieldStorage()
 
-    group_id = args.getfirst("id")
-    if not group_id:
-        print("<html><body>id= parameter needed</body></html>")
-        return
+    rssgroup = group.get_group(args.getfirst("id", 1))
+
+    response = {
+        "id": rssgroup.group_id,
+        "name": rssgroup.name,
+        "members": []
+    }
+    for user in rssgroup.users:
+        member = rssgroup.users[user]
+        response["members"].append({
+            "id": member.user_id,
+            "name": member.name,
+            "rss": member.rss
+        })
+    json.dump(response, sys.stdout)
     
-    format_args = {"members": member_table(int(group_id))}
-
-    with open("index.template.html") as f:
-        print(f.read().format(**format_args))
-
 
 def main():
     page()
