@@ -1,15 +1,20 @@
 TODO:
 
 - Get Blogger authentication working right (and what does that actually mean?)
-- Add adding and deletion of users to groups
-- Handle authentication for group members
+- Handle authentication for group members:
+  First pass, add a password field to users. Fill it with, say, 64
+  base64 characters, randomly generated. Also a username field and
+  generate it, maybe. Show these in the group UI, for now, and the
+  generated RSS URL. Make rss-groups.cgi require a matching
+  username/password to return the results.
 
 NICE
 - See how you can add Like buttons. Maybe group-specific images
-  that are at like rss-image.cgi and wrap a link aeound that
-  increments tgen redirects back?
+  that are at like rss-image.cgi and wrap a link around that
+  increments then redirects back?
+- Delete users and groups
 
 DONE
 - Make useful author bylines that indicate the origin properly (it's OK)
 - Unicode support: https://stackoverflow.com/questions/9322410/set-encoding-in-python-3-cgi-scripts
-
+- Add adding of users to groups
