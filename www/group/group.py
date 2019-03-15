@@ -14,9 +14,11 @@ class User(object):
     def link_params(self, username, password, group_id):
         auth = ""
         if username and password:
-            auth = username + ":" + password + "@"
-        return "https://{}eric.willisson.org/rss-groups/rss-groups.cgi?id={}".format(auth, group_id)
-        
+            auth = "&auth=" + username + ":" + password
+            #            auth = username + ":" + password + "@"
+#        return "https://{}eric.willisson.org/rss-groups/rss-groups.cgi?id={}".format(auth, group_id)
+        return "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}{}".format(group_id, auth)
+
     def link(self, group_id):
         return self.link_params(self.username, self.password, group_id)
 

@@ -1,12 +1,7 @@
 TODO:
 
 - Get Blogger authentication working right (and what does that actually mean?)
-- Handle authentication for group members:
-  First pass, add a password field to users. Fill it with, say, 64
-  base64 characters, randomly generated. Also a username field and
-  generate it, maybe. Show these in the group UI, for now, and the
-  generated RSS URL. Make rss-groups.cgi require a matching
-  username/password to return the results.
+- Get Wordpress authentication working right (so logins, then?)
 
 NICE
 - See how you can add Like buttons. Maybe group-specific images
@@ -18,3 +13,9 @@ DONE
 - Make useful author bylines that indicate the origin properly (it's OK)
 - Unicode support: https://stackoverflow.com/questions/9322410/set-encoding-in-python-3-cgi-scripts
 - Add adding of users to groups
+- Handle authentication for group members:
+  First pass, add a password field to users. Fill it with, say, 64
+  base64 characters, randomly generated. Also a username field and
+  generate it, maybe. Show these in the group UI, for now, and the
+  generated RSS URL. Make rss-groups.cgi require a matching
+  username/password to return the results.

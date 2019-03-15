@@ -4,6 +4,7 @@ import feedparser
 import rss_io
 import blogger
 import group.group
+import os
 
 import cgi, cgitb
 cgitb.enable()
@@ -14,14 +15,35 @@ def add_source(entry, parsed):
     return entry
 
 
+class unprintable(object):
+    pass
+
+NOT_AUTHENTICATED = unprintable()
+
+
 def rss_groups():
     args = cgi.FieldStorage()
 
     print("Content-Type: text/xml; charset=utf-8\n")
 
     group_id = args.getfirst("id", 1)
+    auth = args.getfirst("auth")
+    if auth:
+        username, password = auth.split(":")
+    else:
+        username = NOT_AUTHENTICATED
+        password = NOT_AUTHENTICATED
     rssgroup = group.group.get_group(group_id)
     entries = []
+    authenticated = False
+    for user in rssgroup.users:
+        if username == rssgroup.users[user].username and password == rssgroup.users[user].password:
+            authenticated = True
+    if not authenticated:
+        print("<?xml version='1.0'?>")
+        print("<error>Not authenticated</error>")
+        return
+        
     for user in rssgroup.users:
         parsed = feedparser.parse(rssgroup.users[user].rss)
         entries.extend([add_source(entry, parsed) for entry in parsed.entries])
