@@ -1,7 +1,9 @@
 #! /usr/bin/env python3
 
+import base64
 import group
 import json
+import os
 import sys
 
 import cgi, cgitb
@@ -10,6 +12,12 @@ cgitb.enable()
 
 def err(msg):
     return {"error": msg}
+
+
+def make_auth(name):
+    username = base64.urlsafe_b64encode(bytes(name, "ascii")).decode("ascii")
+    password = base64.urlsafe_b64encode(os.urandom(40)).decode("ascii")
+    return username.replace("=", ""), password.replace("=", "")
 
 
 def page():
@@ -31,8 +39,9 @@ def page():
         return
 
     cursor, conn = group.connect()
-    cursor.execute("INSERT INTO users (name, rss) VALUES (%s, %s) RETURNING id",
-                   (name, rss))
+    username, password = make_auth(name)
+    cursor.execute("INSERT INTO users (name, rss, username, password) VALUES (%s, %s, %s, %s) RETURNING id",
+                   (name, rss, username, password))
     conn.commit()
     user_id = cursor.fetchone()[0]
 

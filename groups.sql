@@ -9,7 +9,8 @@ CREATE TABLE users (
        name VARCHAR(64),
        email VARCHAR(128),
        rss VARCHAR(128),       
-
+       username VARCHAR(128),
+       password TEXT,
        id SERIAL,
        PRIMARY KEY(id)
        );

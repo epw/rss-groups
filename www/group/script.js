@@ -3,7 +3,6 @@ function make_body(group_id, name, rss) {
 }
 
 function handle_response(response) {
-//    response.text().then(text => document.getElementById("output").innerHTML = text);
     response.json().then(json => {
 	if ("error" in json) {
 	    console.error(json.error);
