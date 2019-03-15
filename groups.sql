@@ -7,6 +7,7 @@ CREATE TABLE groups (
 
 CREATE TABLE users (
        name VARCHAR(64),
+       email VARCHAR(128),
        rss VARCHAR(128),       
 
        id SERIAL,

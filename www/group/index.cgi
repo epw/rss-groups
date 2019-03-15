@@ -27,7 +27,6 @@ def page():
         print(f.read().format(**format_args))
 
 
-
 def main():
     page()
 
