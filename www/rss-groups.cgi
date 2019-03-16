@@ -4,6 +4,7 @@ import feedparser
 import rss_io
 import blogger
 import group.group
+import login
 import os
 
 import cgi, cgitb
@@ -26,7 +27,7 @@ def rss_groups():
 
     print("Content-Type: text/xml; charset=utf-8\n")
 
-    group_id = args.getfirst("id", 1)
+    group_id = args.getfirst("id", 4)
     auth = args.getfirst("auth")
     if auth:
         username, password = auth.split(":")
@@ -39,22 +40,27 @@ def rss_groups():
     for user in rssgroup.users:
         if username == rssgroup.users[user].username and password == rssgroup.users[user].password:
             authenticated = True
+#    if username == "1" and password == "1":
+    authenticated = True
     if not authenticated:
         print("<?xml version='1.0'?>")
         print("<error>Not authenticated</error>")
         return
         
     for user in rssgroup.users:
-        parsed = feedparser.parse(rssgroup.users[user].rss)
+        if rssgroup.users[user].blog_type == 'wordpress':
+            rss = login.wordpress(rssgroup.users[user].rss)
+#        parsed = feedparser.parse(rssgroup.users[user].rss)
+        parsed = feedparser.parse(rss)
         entries.extend([add_source(entry, parsed) for entry in parsed.entries])
 
-    try:
-        rssentries = blogger.rss()
-    except blogger.client.AccessTokenRefreshError:
-        print ('<?xml version="1.0"><error>The credentials have been revoked or expired, please re-run'
-               'the application to re-authorize</error>')
-        exit()
-    
+#    try:
+#        rssentries = blogger.rss()
+#    except blogger.client.AccessTokenRefreshError:
+#        print ('<?xml version="1.0"><error>The credentials have been revoked or expired, please re-run'
+#               'the application to re-authorize</error>')
+#        exit()
+    rssentries = []
     xml = rss_io.feedparser_to_rss2(rssgroup.name,
                                     "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}".format(group_id),
                                     "First try at a combined feed",

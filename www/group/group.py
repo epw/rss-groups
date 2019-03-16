@@ -10,6 +10,7 @@ class User(object):
         self.rss = rss
         self.username = username
         self.password = password
+        self.blog_type = "wordpress"
 
     def link_params(self, username, password, group_id):
         auth = ""

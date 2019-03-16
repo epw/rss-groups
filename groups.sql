@@ -1,3 +1,7 @@
+CREATE TYPE blog_type AS ENUM
+       ('blogger',
+        'wordpress');
+
 CREATE TABLE groups (
        name VARCHAR(64),
 
@@ -9,6 +13,7 @@ CREATE TABLE users (
        name VARCHAR(64),
        email VARCHAR(128),
        rss VARCHAR(128),       
+       type blog_type,
        username VARCHAR(128),
        password TEXT,
        id SERIAL,
