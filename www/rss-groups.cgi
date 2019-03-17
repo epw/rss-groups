@@ -13,36 +13,40 @@ cgitb.enable()
 
 
 def add_source(entry, parsed):
-    entry.publisher = parsed.feed.title
+    if "title" in dir(parsed.feed):
+        entry.publisher = parsed.feed.title
     return entry
 
 
-def rss_groups():
-    args = cgi.FieldStorage()
-
+def rss_groups(group_id, auth_string):
     print("Content-Type: text/xml; charset=utf-8\n")
 
-    group_id = args.getfirst("id", 4)
-    rssgroup = group.group.get_group(group_id)
-    if not auth.auth(rssgroup, args.getfirst("auth")):
+    cursor, conn = group.group.connect()
+    rssgroup = group.group.get_group(group_id, cursor)
+    if not auth.auth(rssgroup, auth_string):
         print("<?xml version='1.0'?>")
         print("<error>Not authenticated</error>")
         return
         
+    entries = []
+    rssentries = []
     for user in rssgroup.users:
         if rssgroup.users[user].blog_type == 'wordpress':
-            rss = login.wordpress(rssgroup.users[user].rss)
-#        parsed = feedparser.parse(rssgroup.users[user].rss)
-        parsed = feedparser.parse(rss)
-        entries.extend([add_source(entry, parsed) for entry in parsed.entries])
+            cursor.execute("SELECT xml FROM posts WHERE user_id = %s", (rssgroup.users[user].user_id,))
+            for row in cursor:
+                parsed = feedparser.parse(row[0])
+                entries.append(add_source(parsed.entries[0], parsed))
+        elif rssgroup.users[user].blog_type == 'blogger':
+            try:
+                rssentries = blogger.rss()
+            except blogger.client.AccessTokenRefreshError:
+                print ('<?xml version="1.0"><error>The credentials have been revoked or expired, please re-run'
+                       'the application to re-authorize</error>')
+                exit()
+        else:
+            parsed = feedparser.parse(rssgroup.users[user].rss)
+            entries.extend([add_source(entry, parsed) for entry in parsed.entries])
 
-#    try:
-#        rssentries = blogger.rss()
-#    except blogger.client.AccessTokenRefreshError:
-#        print ('<?xml version="1.0"><error>The credentials have been revoked or expired, please re-run'
-#               'the application to re-authorize</error>')
-#        exit()
-    rssentries = []
     xml = rss_io.feedparser_to_rss2(rssgroup.name,
                                     "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}".format(group_id),
                                     "First try at a combined feed",
@@ -58,7 +62,8 @@ def rss_groups():
 
 
 def main():
-    rss_groups()
+    args = cgi.FieldStorage()
+    rss_groups(args.getfirst("id"), args.getfirst("auth"))
 
 
 if __name__ == "__main__":

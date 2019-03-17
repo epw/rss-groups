@@ -7,11 +7,17 @@ import pytz
 
 
 def get_content(entry):
-    if "content" in dir(entry):
+    if entry.has_key("content"):
         return entry.content[0].value
-    if "summary" in dir(entry):
+    if entry.has_key("summary"):
         return entry.summary
     return "NO CONTENT"
+
+
+def get_author(entry):
+    if "publisher" in dir(entry):
+        return entry.publisher + " - " + entry.author
+    return entry.author
 
 
 def rss2_item_from_entry(entry):
@@ -21,7 +27,7 @@ def rss2_item_from_entry(entry):
         link = entry.link,
         description = get_content(entry),
 #        description = "entry.content[0]",
-        author = entry.publisher + " - " + entry.author,
+        author = get_author(entry),
         guid = entry.link,
         pubDate = datetime.datetime(
             entry.published_parsed[0],
