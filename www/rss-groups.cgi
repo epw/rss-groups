@@ -1,5 +1,6 @@
 #! /usr/bin/env python3
 
+import auth
 import feedparser
 import rss_io
 import blogger
@@ -16,33 +17,14 @@ def add_source(entry, parsed):
     return entry
 
 
-class unprintable(object):
-    pass
-
-NOT_AUTHENTICATED = unprintable()
-
-
 def rss_groups():
     args = cgi.FieldStorage()
 
     print("Content-Type: text/xml; charset=utf-8\n")
 
     group_id = args.getfirst("id", 4)
-    auth = args.getfirst("auth")
-    if auth:
-        username, password = auth.split(":")
-    else:
-        username = NOT_AUTHENTICATED
-        password = NOT_AUTHENTICATED
     rssgroup = group.group.get_group(group_id)
-    entries = []
-    authenticated = False
-    for user in rssgroup.users:
-        if username == rssgroup.users[user].username and password == rssgroup.users[user].password:
-            authenticated = True
-#    if username == "1" and password == "1":
-    authenticated = True
-    if not authenticated:
+    if not auth.auth(rssgroup, args.getfirst("auth")):
         print("<?xml version='1.0'?>")
         print("<error>Not authenticated</error>")
         return

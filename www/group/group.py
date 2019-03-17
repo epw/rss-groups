@@ -39,8 +39,9 @@ def connect():
     return conn.cursor(), conn
 
         
-def get_group(group_id):
-    cursor, _ = connect()
+def get_group(group_id, cursor=None):
+    if not cursor:
+        cursor, _ = connect()
     cursor.execute("SELECT id, name FROM groups WHERE id = %s", (group_id,))
     row = cursor.fetchone()
     group = Group(row[0], row[1])

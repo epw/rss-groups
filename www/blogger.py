@@ -2,10 +2,7 @@
 
 from oauth2client import client
 from googleapiclient import sample_tools
-import PyRSS2Gen as RSS2
-import datetime
-import dateparser
-import pytz
+import make_rss_item
 
 
 def rss():
@@ -28,13 +25,13 @@ def rss():
 
   items = []
   for post in posts["items"]:
-    items.append(RSS2.RSSItem(
+    items.append(make_rss_item.make_item(
       title=post["title"],
-      author=blog["name"] + " - " + post["author"]["displayName"],
-      link=post["url"],
-      description=post["content"],
-      guid=post["url"],
-      pubDate=dateparser.parse(post["published"]).replace(tzinfo=pytz.utc)))
+      blog_name=blog["name"],
+      author_name=post["author"]["displayName"],
+      url=post["url"],
+      content=post["content"],
+      pubDate=post["published"]))
 
   return items
 
