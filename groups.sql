@@ -1,5 +1,6 @@
 CREATE TYPE blog_type AS ENUM
-       ('blogger',
+       ('rss',
+	'blogger',
         'wordpress');
 
 CREATE TABLE groups (
@@ -28,6 +29,22 @@ CREATE TABLE group_users (
               REFERENCES groups(id)
        	      ON DELETE CASCADE
 	      ON UPDATE CASCADE,
+       FOREIGN KEY (user_id)
+              REFERENCES users(id)
+       	      ON DELETE CASCADE
+	      ON UPDATE CASCADE
+       );
+
+CREATE TABLE posts (
+       user_id INT NOT NULL,
+
+       type blog_type,
+       url VARCHAR(255),
+       xml TEXT,
+
+       id SERIAL,
+       PRIMARY KEY(id),
+
        FOREIGN KEY (user_id)
               REFERENCES users(id)
        	      ON DELETE CASCADE

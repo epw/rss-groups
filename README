@@ -8,6 +8,8 @@ NICE
   that are at like rss-image.cgi and wrap a link around that
   increments then redirects back?
 - Delete users and groups
+- Investigate the RSS feed that RSS readers tend to produce for
+  "share" action, see if that needs any special support
 
 DONE
 - Make useful author bylines that indicate the origin properly (it's OK)
