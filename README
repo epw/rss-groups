@@ -1,7 +1,9 @@
 TODO:
 
+- For testing, make sure you have a standard (low-volume!) RSS feed included in this
+  first attempt
+- Fix sorting across Wordpress and Blogger
 - Get Blogger authentication working right (and what does that actually mean?)
-- Get Wordpress authentication working right (so logins, then?)
 
 NICE
 - See how you can add Like buttons. Maybe group-specific images
@@ -21,3 +23,5 @@ DONE
   generate it, maybe. Show these in the group UI, for now, and the
   generated RSS URL. Make rss-groups.cgi require a matching
   username/password to return the results.
+- Get Wordpress authentication working right (crazy webhook thing instead of logins)
+

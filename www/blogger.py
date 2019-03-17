@@ -31,7 +31,7 @@ def rss():
       author_name=post["author"]["displayName"],
       url=post["url"],
       content=post["content"],
-      pubDate=post["published"]))
+      pubdate=post["published"]))
 
   return items
 

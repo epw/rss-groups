@@ -50,10 +50,11 @@ def get_group(group_id, cursor=None):
         group.add_user(User(row[0]))
     if len(group.users) > 0:
         user_choices = "id = " + " OR id = ".join([str(user) for user in group.users])
-        cursor.execute("SELECT id, name, rss, username, password FROM users WHERE " + user_choices)
+        cursor.execute("SELECT id, name, rss, type, username, password FROM users WHERE " + user_choices)
         for row in cursor:
             group.users[row[0]].name = row[1]
             group.users[row[0]].rss = row[2]
-            group.users[row[0]].username = row[3]
-            group.users[row[0]].password = row[4]
+            group.users[row[0]].blog_type = row[3]
+            group.users[row[0]].username = row[4]
+            group.users[row[0]].password = row[5]
     return group

@@ -8,9 +8,9 @@ cgitb.enable()
 
 def member_table(users, group_id):
     table = ["<table class='members' border='1'>",
-             "<tr><th>Name</th><th>RSS Feed</th><th>Group URL</th></tr>"]
+             "<tr><th>Name</th><th>RSS Feed</th><th>Type</th><th>Group URL</th></tr>"]
     for user in sorted(users.keys()):
-            table.append("<tr><td>{}</td><td>{}</td><td>{}</td></tr>".format(users[user].name, users[user].rss, users[user].link(group_id)))
+            table.append("<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(users[user].name, users[user].rss, users[user].blog_type, users[user].link(group_id)))
     table.append("</table>")
     return "\n".join(table)
 

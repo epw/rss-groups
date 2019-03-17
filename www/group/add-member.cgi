@@ -37,11 +37,14 @@ def page():
     if not rss:
         json.dump(err("Missing RSS feed"), sys.stdout)
         return
+    blog_type = args.getfirst("type")
+    if not blog_type:
+        blog_type = "rss"
 
     cursor, conn = group.connect()
     username, password = make_auth(name)
-    cursor.execute("INSERT INTO users (name, rss, username, password) VALUES (%s, %s, %s, %s) RETURNING id",
-                   (name, rss, username, password))
+    cursor.execute("INSERT INTO users (name, rss, type, username, password) VALUES (%s, %s, %s, %s, %s) RETURNING id",
+                   (name, rss, blog_type, username, password))
     conn.commit()
     user_id = cursor.fetchone()[0]
 
