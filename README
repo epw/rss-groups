@@ -4,6 +4,9 @@ TODO:
 - Clean up code enough to trust first group
 - Clean up API (URLs)
 - Get Blogger authentication working right (and what does that actually mean?)
+  - It looks like the only way will be to have the particular user
+     authenticate this server to read. This means that users will have
+     to have their own pages where they can edit stuff.
 
 NICE
 - See how you can add Like buttons. Maybe group-specific images
