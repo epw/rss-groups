@@ -1,8 +1,8 @@
 TODO:
 
-- For testing, make sure you have a standard (low-volume!) RSS feed included in this
-  first attempt
-- Fix sorting across Wordpress and Blogger
+- Support differing public/private levels
+- Clean up code enough to trust first group
+- Clean up API (URLs)
 - Get Blogger authentication working right (and what does that actually mean?)
 
 NICE
@@ -12,6 +12,7 @@ NICE
 - Delete users and groups
 - Investigate the RSS feed that RSS readers tend to produce for
   "share" action, see if that needs any special support
+- Fix sorting across Wordpress and Blogger. Looks like different servers report different times?
 
 DONE
 - Make useful author bylines that indicate the origin properly (it's OK)

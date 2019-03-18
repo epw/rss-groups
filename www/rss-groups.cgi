@@ -9,13 +9,34 @@ import login
 import os
 
 import cgi, cgitb
-cgitb.enable()
 
 
 def add_source(entry, parsed):
     if "title" in dir(parsed.feed):
         entry.publisher = parsed.feed.title
     return entry
+
+
+def get_entries(users, cursor):
+    entries = []
+    rssentries = []
+    for user in users:
+        if users[user].blog_type == 'wordpress':
+            cursor.execute("SELECT xml FROM posts WHERE user_id = %s", (users[user].user_id,))
+            for row in cursor:
+                parsed = feedparser.parse(row[0])
+                entries.append(add_source(parsed.entries[0], parsed))
+        elif users[user].blog_type == 'blogger':
+            try:
+                rssentries = blogger.rss()
+            except blogger.client.AccessTokenRefreshError:
+                print ('<?xml version="1.0"><error>The credentials have been revoked or expired, please re-run'
+                       'the application to re-authorize</error>')
+                exit()
+        else:
+            parsed = feedparser.parse(users[user].rss)
+            entries.extend([add_source(entry, parsed) for entry in parsed.entries])
+    return entries, rssentries
 
 
 def rss_groups(group_id, auth_string):
@@ -27,25 +48,8 @@ def rss_groups(group_id, auth_string):
         print("<?xml version='1.0'?>")
         print("<error>Not authenticated</error>")
         return
-        
-    entries = []
-    rssentries = []
-    for user in rssgroup.users:
-        if rssgroup.users[user].blog_type == 'wordpress':
-            cursor.execute("SELECT xml FROM posts WHERE user_id = %s", (rssgroup.users[user].user_id,))
-            for row in cursor:
-                parsed = feedparser.parse(row[0])
-                entries.append(add_source(parsed.entries[0], parsed))
-        elif rssgroup.users[user].blog_type == 'blogger':
-            try:
-                rssentries = blogger.rss()
-            except blogger.client.AccessTokenRefreshError:
-                print ('<?xml version="1.0"><error>The credentials have been revoked or expired, please re-run'
-                       'the application to re-authorize</error>')
-                exit()
-        else:
-            parsed = feedparser.parse(rssgroup.users[user].rss)
-            entries.extend([add_source(entry, parsed) for entry in parsed.entries])
+
+    entries, rssentries = get_entries(rssgroup.users, cursor)
 
     xml = rss_io.feedparser_to_rss2(rssgroup.name,
                                     "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}".format(group_id),
@@ -62,6 +66,7 @@ def rss_groups(group_id, auth_string):
 
 
 def main():
+    cgitb.enable()
     args = cgi.FieldStorage()
     rss_groups(args.getfirst("id"), args.getfirst("auth"))
 

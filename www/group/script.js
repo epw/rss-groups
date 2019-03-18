@@ -30,10 +30,10 @@ function add_member() {
     if (rss == null) {
 	return;
     }
-    const blog_type = detect_blog_type(rss);
+    let blog_type = detect_blog_type(rss);
     const type_correct = confirm("Is detected blog type " + blog_type + " correct?");
     if (!type_correct) {
-	const blog_type = prompt("Blog type ('rss', 'wordpress', or 'blogger')");
+	blog_type = prompt("Blog type ('rss', 'wordpress', or 'blogger')");
     }
     const urlparams = new URLSearchParams(window.location.search);
     console.log(make_body(urlparams.get("id"), name, rss, blog_type));
