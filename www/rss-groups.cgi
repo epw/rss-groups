@@ -5,7 +5,6 @@ import feedparser
 import rss_io
 import blogger
 import group.group
-import login
 import os
 
 import cgi, cgitb

@@ -1,0 +1,33 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="blog.css">
+    <script src="blog.js" async></script>
+  </head>
+  <body>
+    <h1>{name}</h1>
+
+    <form method="POST" action="blog-update.cgi">
+      <input type="hidden" name="id" value="{id}">
+      <input type="hidden" name="auth" value="{auth}">
+
+      <div class="field"><span class="fieldlabel">Name:</span> <input id="name" name="name" value="{name}"></div>
+
+      <div class="field"><span class="fieldlabel">RSS or Blog URL:</span> <input id="rss" name="rss" value="{rss}"></div>
+      <div class="field"><span class="fieldlabel">Blog type:</span>
+	<input type="hidden" id="blogtypehidden" name="blogtypehidden" value="{type}">
+	<select id="type" name="type">
+	  <option value="rss">RSS</option>
+	  <option value="wordpress">Wordpress</option>
+	  <option value="blogger">Blogger</option>
+	</select>
+	<div class="field"><span class="fieldlabel">Auth string:</span> {auth}</div>
+
+	<div class="submit"><input type="submit" value="Change"></div>
+    </form>
+    
+<pre id="output">
+</pre>
+  </body>
+</html>
