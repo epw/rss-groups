@@ -24,7 +24,3 @@ def auth_user(user, auth_string):
     else:
         return False
     return username == user.username and password == user.password
-
-
-def auth_string(user):
-    return user.username + ":" + user.password

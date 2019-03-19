@@ -23,6 +23,9 @@ class User(object):
     def link(self, group_id):
         return self.link_params(self.username, self.password, group_id)
 
+    def auth(self):
+        return self.username + ":" + self.password
+
 
 class Group(object):
     def __init__(self, group_id=None, name=None):

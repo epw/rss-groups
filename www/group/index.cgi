@@ -6,11 +6,22 @@ import cgi, cgitb
 cgitb.enable()
 
 
+def name_link(user):
+    return "<a href='../blog.cgi?id={id}&auth={auth}'>{name}</a>".format(
+        id=user.user_id,
+        auth=user.auth(),
+        name=user.name)
+
+
 def member_table(users, group_id):
     table = ["<table class='members' border='1'>",
              "<tr><th>Name</th><th>RSS Feed</th><th>Type</th><th>Group URL</th></tr>"]
     for user in sorted(users.keys()):
-            table.append("<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(users[user].name, users[user].rss, users[user].blog_type, users[user].link(group_id)))
+            table.append("<tr><td>{}</td><td>{}</td><td>{}</td><td>{}</td></tr>".format(
+                name_link(users[user]),
+                users[user].rss,
+                users[user].blog_type,
+                users[user].link(group_id)))
     table.append("</table>")
     return "\n".join(table)
 

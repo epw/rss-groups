@@ -21,7 +21,7 @@ def page(user_id, auth_string):
                    "name": user.name,
                    "rss": user.rss,
                    "type": user.blog_type,
-                   "auth": auth.auth_string(user)}
+                   "auth": user.auth()}
 
     with open("blog.template.html") as f:
         print(f.read().format(**format_args))

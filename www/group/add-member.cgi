@@ -35,8 +35,9 @@ def page():
         return
     rss = args.getfirst("rss")
     if not rss:
-        json.dump(err("Missing RSS feed"), sys.stdout)
-        return
+        rss = ""
+#        json.dump(err("Missing RSS feed"), sys.stdout)
+#        return
     blog_type = args.getfirst("type")
     if not blog_type:
         blog_type = "rss"
