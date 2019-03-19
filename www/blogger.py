@@ -5,7 +5,7 @@ from googleapiclient import sample_tools
 import make_rss_item
 
 
-def rss(url):
+def get_blog(url):
   # Authenticate and construct service.
   service, flags = sample_tools.init(
     ["blogger", "--noauth_local_webserver"], 'blogger', 'v3', __doc__, "/home/eric/projects/rss-groups/client_secrets.json",
@@ -13,8 +13,12 @@ def rss(url):
 
   blogs = service.blogs()
 
-  blog = blogs.getByUrl(url=url).execute()
+  return blogs.getByUrl(url=url).execute()
+  
 
+def rss(url):
+  blog = get_blog(url)
+  
   posts = service.posts().list(blogId=blog["id"]).execute()
 
   items = []
