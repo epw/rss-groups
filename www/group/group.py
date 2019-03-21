@@ -3,6 +3,10 @@
 import psycopg2
 
 
+def url_base(group_id):
+    return "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}".format(group_id,)
+
+
 class User(object):
     def __init__(self, user_id, name=None, rss=None, username=None, password=None, blog_type="wordpress"):
         self.user_id = user_id
@@ -16,9 +20,7 @@ class User(object):
         auth = ""
         if username and password:
             auth = "&auth=" + username + ":" + password
-            #            auth = username + ":" + password + "@"
-#        return "https://{}eric.willisson.org/rss-groups/rss-groups.cgi?id={}".format(auth, group_id)
-        return "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}{}".format(group_id, auth)
+        return url_base(group_id) + auth
 
     def link(self, group_id):
         return self.link_params(self.username, self.password, group_id)
@@ -28,11 +30,12 @@ class User(object):
 
 
 class Group(object):
-    def __init__(self, group_id=None, name=None):
+    def __init__(self, group_id=None, name=None, public=False):
         self.group_id = group_id
         self.name = name
         self.users = {}
-
+        self.public = public
+        
     def add_user(self, user):
         self.users[user.user_id] = user
 
@@ -48,9 +51,9 @@ USER_COLS = "id, name, rss, username, password, type"
 def get_group(group_id, cursor=None):
     if not cursor:
         cursor, _ = connect()
-    cursor.execute("SELECT id, name FROM groups WHERE id = %s", (group_id,))
+    cursor.execute("SELECT id, name, public FROM groups WHERE id = %s", (group_id,))
     row = cursor.fetchone()
-    group = Group(row[0], row[1])
+    group = Group(row[0], row[1], row[2])
     cursor.execute("SELECT user_id FROM group_users WHERE group_id = %s", (group_id,))
     for row in cursor:
         group.add_user(User(row[0]))

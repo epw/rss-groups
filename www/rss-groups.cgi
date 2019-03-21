@@ -38,7 +38,7 @@ def rss_groups(group_id, auth_string):
 
     cursor, conn = group.group.connect()
     rssgroup = group.group.get_group(group_id, cursor)
-    if not auth.auth(rssgroup, auth_string):
+    if not auth.auth(rssgroup, auth_string) and not rssgroup.public:
         print("<?xml version='1.0'?>")
         print("<error>Not authenticated</error>")
         return

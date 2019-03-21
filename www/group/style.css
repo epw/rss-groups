@@ -1,1 +1,6 @@
+.publicsetting { margin-bottom: 1em; font-size: 125% }
+.publicsetting input { transform: scale(1.5) }
+.publicsetting label { font-weight: bold }
+.publicurl { display: none; margin: 5px }
+
 .adddiv { margin-top: 1em; }

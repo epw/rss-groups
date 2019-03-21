@@ -3,11 +3,17 @@
   <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="style.css">
-<!--    <script src="jquery.min.js"></script>-->
     <script src="script.js" async></script>
   </head>
   <body>
     <h1>{name}</h1>
+
+    <div class="publicsetting">
+      <input type="checkbox" id="public" name="public" {public}>
+      <label for="public">Public Group</label>
+      <div class="publicurl">Public URL: <a href="{public_url}">{public_url}</a></div>
+    </div>
+
 {members}
 
 <div class="adddiv">

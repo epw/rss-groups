@@ -48,9 +48,42 @@ function add_member() {
 	.catch(response => console.error(response));
 }
 
+function checkbox_bool(selector) {
+    if (document.querySelector(selector).checked) {
+	return "1";
+    }
+    return "";
+}
+
+function show_hide_public_url() {
+    if (document.getElementById("public").checked) {
+	document.querySelector(".publicurl").setAttribute("style", "display: block");
+    } else {
+	document.querySelector(".publicurl").setAttribute("style", "display: none");
+    }
+}
+
+function change_public() {	
+    show_hide_public_url();
+    const urlparams = new URLSearchParams(window.location.search);
+    fetch("change-public.cgi", {
+	method: "POST",
+	credentials: "same-origin",
+	headers: {
+	    "Content-Type": "application/x-www-form-urlencoded",
+	},
+	body: "group_id=" + urlparams.get("id") + "&public=" + checkbox_bool("#public"),
+    }).then(response => {
+	response.json().then(s => console.log(s));
+    }).catch(response => console.error(response));
+    
+}
+
 function init() {
     document.getElementById("addmember").addEventListener("click",
-							  add_member);
+							   add_member);
+    document.getElementById("public").onchange = change_public;
+    show_hide_public_url();
 }
 
 init();

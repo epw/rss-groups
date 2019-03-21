@@ -6,6 +6,8 @@ CREATE TYPE blog_type AS ENUM
 CREATE TABLE groups (
        name VARCHAR(64),
 
+       public BOOLEAN NOT NULL DEFAULT FALSE,
+
        id SERIAL,
        PRIMARY KEY(id)
        );

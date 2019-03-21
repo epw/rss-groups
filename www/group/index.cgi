@@ -26,6 +26,12 @@ def member_table(users, group_id):
     return "\n".join(table)
 
 
+def checked_if(value):
+    if value:
+        return "checked"
+    return ""
+
+
 def page():
     print("Content-Type: text/html\n")
 
@@ -39,7 +45,10 @@ def page():
 
     rssgroup = group.get_group(int(group_id))
     format_args = {"name": rssgroup.name,
-                   "members": member_table(rssgroup.users, group_id)}
+                   "members": member_table(rssgroup.users, group_id),
+                   "public": checked_if(rssgroup.public),
+                   "public_url": group.url_base(group_id)
+    }
 
     with open("index.template.html") as f:
         print(f.read().format(**format_args))

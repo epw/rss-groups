@@ -1,0 +1,68 @@
+<!doctype html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="style.css">
+  </head>
+  <body>
+    <h1>RSS Groups</h1>
+    <p>This is the first RSS Groups implementation.</p>
+
+    <p>If you are Eric, you can manage groups <a
+      href="group/">here.</a></p>
+
+    <p>If you are not, then you should have been given a link to a more specific
+      place, but here are some thoughts.
+    </p>
+
+    <h2>Introduction</h2>
+    <p>My goal in this is to make it possible for groups of people to
+      have private blogs which it is easy to stay up to date with. The
+      Streams of the 2010s have shown the value of collecting all the
+      posts from people into one place, and allowing new people to
+      join that "one place." The trouble with a group of friends all
+      subscribed to each other's blogs over RSS is that it's difficult
+      for a new person to be added to everybody's.
+    </p>
+
+    <p>This tool combines RSS feeds together into one. I hope this
+      will make it easy to create a new group, for any interest.
+    </p>
+
+    <p>I seek to interoperate with existing systems. So, instead of
+      this being a publishing platform itself, it understands RSS and
+      some other blog formats. To join a group, first, make a blog. If
+      you wish, make it private. Then, tell the group owner. They will
+      send you a link to your private user page, where you can enter
+      in the blog's RSS feed URL, and you will be given an RSS feed to
+      subscribe to. That's it! From that point on, you should be able
+      to read the posts from everyone in the group, and new members
+      who join will be added seamlessly.
+    </p>
+
+    <p>
+      Unfortunately, since a blog's privacy settings are generally
+      managed by the blog platform itself, you will have to share your
+      blog, if it is private, with other members in the group
+      individually. This will be needed if you want to let them, for
+      example, read comments, or generally read your blog outside of
+      their RSS reader.
+    </p>
+
+    <p>This is currently a very early beta. Its UI has no polish at
+      all, and there are some questionable security practices. There
+      are a lot of improvements I want to make, but I also wanted to
+      see it in use as quickly as possible so I could know where to
+      focus my efforts. Here is an incomplete list of additions I
+      would like to make:
+      <ul>
+	<li>Self-service groups and user addition</li>
+	<li>Separate authentication for user profiles versus group RSS
+	  access</li>
+	<li>Volume control for individual users in the group ("show me
+	  less of this person's posts")</li>
+	<li>Integration with RSS readers' "shared" feeds</li>
+	<li>An optional "+1" system</li>
+      </ul>
+  </body>
+</html>
