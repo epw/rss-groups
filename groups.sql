@@ -17,6 +17,8 @@ CREATE TABLE users (
        type blog_type,
        username VARCHAR(128),
        password TEXT,
+       state TEXT,
+       credentials TEXT,
        id SERIAL,
        PRIMARY KEY(id)
        );

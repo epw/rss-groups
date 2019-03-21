@@ -32,6 +32,7 @@ def page(user_id, auth_string):
     with open("blog.template.html") as f:
         print(f.read().format(**format_args))
 
+
 def main():
     args = cgi.FieldStorage()
     page(args.getfirst("id"), args.getfirst("auth"))

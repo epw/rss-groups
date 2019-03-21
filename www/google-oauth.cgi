@@ -10,6 +10,13 @@ import http.cookies
 import cgi, cgitb
 
 CLIENT_SECRET = "/var/local/rss-groups/client_secret_blogger_interface.json"
+#SCOPES = ["profile", "email", "https://www.googleapis.com/auth/blogger"]
+SCOPES = [
+    "https://www.googleapis.com/auth/blogger",
+    "https://www.googleapis.com/auth/userinfo.email",
+    "https://www.googleapis.com/auth/userinfo.profile",
+    "openid"
+]
 
 
 def not_authorized():
@@ -19,6 +26,7 @@ def not_authorized():
 
 
 def login(user_id, auth_string, token, url):
+    
     cursor, conn = group.group.connect()
     user = group.group.get_user(user_id, cursor)
     if not auth.auth_user(user, auth_string):
@@ -27,8 +35,8 @@ def login(user_id, auth_string, token, url):
 
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
         CLIENT_SECRET,
-        scopes = ["https://www.googleapis.com/auth/blogger"])
-    flow.redirect_uri = "https://eric.willisson.org/rss-groups/blog.cgi"
+        scopes = SCOPES)
+    flow.redirect_uri = "https://eric.willisson.org/rss-groups/google-save-login.cgi"
 
     authorization_url, state = flow.authorization_url(
         access_type="offline",
@@ -42,7 +50,10 @@ def login(user_id, auth_string, token, url):
     print(c)
 
     print()
-    
+
+    cursor.execute("UPDATE users SET state = %s WHERE id = %s", (state, user_id))
+    conn.commit()
+
 
 def main():
     args = cgi.FieldStorage(encoding="UTF-8")
