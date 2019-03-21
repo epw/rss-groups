@@ -79,11 +79,27 @@ function change_public() {
     
 }
 
+function save_desc() {
+    const urlparams = new URLSearchParams(window.location.search);
+    fetch("change-desc.cgi", {
+	method: "POST",
+	credentials: "same-origin",
+	headers: {
+	    "Content-Type": "application/x-www-form-urlencoded",
+	},
+	body: "group_id=" + urlparams.get("id") + "&description=" + encodeURIComponent(document.getElementById("description").value),
+    }).then(response => {
+	response.json().then(s => console.log(s));
+    }).catch(response => console.error(response));
+}
+
 function init() {
     document.getElementById("addmember").addEventListener("click",
 							   add_member);
     document.getElementById("public").onchange = change_public;
     show_hide_public_url();
+
+    document.getElementById("savedesc").onclick = save_desc;
 }
 
 init();

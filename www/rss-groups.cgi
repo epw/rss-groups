@@ -50,7 +50,7 @@ def rss_groups(group_id, auth_string):
 
     xml = rss_io.feedparser_to_rss2(rssgroup.name,
                                     "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}&auth={}".format(group_id, auth_string),
-                                    "First try at a combined feed",
+                                    rssgroup.description,
                                     entries, rssentries)
 
     # If you're getting weird UnicodeDecode errors, then use this temporarily.

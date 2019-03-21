@@ -45,6 +45,7 @@ def page():
 
     rssgroup = group.get_group(int(group_id))
     format_args = {"name": rssgroup.name,
+                   "description": rssgroup.description,
                    "members": member_table(rssgroup.users, group_id),
                    "public": checked_if(rssgroup.public),
                    "public_url": group.url_base(group_id)

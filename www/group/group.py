@@ -30,9 +30,13 @@ class User(object):
 
 
 class Group(object):
-    def __init__(self, group_id=None, name=None, public=False):
+    def __init__(self, group_id=None, name=None, description="", public=False):
         self.group_id = group_id
         self.name = name
+        if description:
+            self.description = description
+        else:
+            self.description = ""
         self.users = {}
         self.public = public
         
@@ -51,9 +55,9 @@ USER_COLS = "id, name, rss, username, password, type"
 def get_group(group_id, cursor=None):
     if not cursor:
         cursor, _ = connect()
-    cursor.execute("SELECT id, name, public FROM groups WHERE id = %s", (group_id,))
+    cursor.execute("SELECT id, name, description, public FROM groups WHERE id = %s", (group_id,))
     row = cursor.fetchone()
-    group = Group(row[0], row[1], row[2])
+    group = Group(row[0], row[1], row[2], row[3])
     cursor.execute("SELECT user_id FROM group_users WHERE group_id = %s", (group_id,))
     for row in cursor:
         group.add_user(User(row[0]))

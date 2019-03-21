@@ -5,7 +5,7 @@ CREATE TYPE blog_type AS ENUM
 
 CREATE TABLE groups (
        name VARCHAR(64),
-
+       description TEXT,
        public BOOLEAN NOT NULL DEFAULT FALSE,
 
        id SERIAL,
