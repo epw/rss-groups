@@ -29,16 +29,77 @@
 	  <option value="blogger">Blogger</option>
 	</select>
 	<div class="authentication">
+	  <div class="wordpress">
+	    <p>
+	      For a Wordpress blog, you'll need to go to [your
+	      Wordpress
+	      domain]/wp-admin/options-general.php?page=webhooks,
+	      click "Add webhook", and select these fields:
+	      <ul>
+		<li>ID</li>
+		<li>guid</li>
+		<li>post_author</li>
+		<li>post_category</li>
+		<li>post_content</li>
+		<li>post_date</li>
+		<li>post_name</li>
+		<li>post_password</li>
+		<li>post_status</li>
+		<li>post_title</li>
+		<li>post_url</li>
+		<li>reader_url</li>
+	      </ul>
+	    </p>
+	    <p>Then enter as the URL:
+	      <input type="text" readonly class="copyurl"
+		     id="wpwebhook" value="{wordpress_webhook}">
+	      <input type="button" id="copywpwebhookbutton"
+			  value="Click to copy">
+	    </p>
+	    <p>
+	      Click "Add new Webhook" and you're done! This was
+	      one-time setup.
+	    </p>
+	  </div>
 	  <div class="google">
-	    <!--	    <button id="googlesignin">Sign in</button>-->
-	    <a href="google-oauth.cgi?id={id}&auth={auth}">Sign in</a>
+	    <div>
+	      <p>
+		For a Blogger blog that isn't public</li>
+		you'll need to sign
+		in to authenticate the RSS Group to read your posts.
+	      </p>
+	      <p>
+		This should persist, but on occasion it may be
+		necessary to return here and click the Sign in link
+		again, if your block stops showing up in the group.
+	      </p>
+	      <p><a href="google-oauth.cgi?id={id}&auth={auth}">Sign in</a></p>
+	    </div>
 	 </div>
 	</div>
       </div>
 
-	<div class="field"><span class="fieldlabel">Auth string:</span> {auth}</div>
-
 	<div class="submit"><input type="submit" value="Change"></div>
+
+	<div class="personalrss">
+	  <p>
+	    <strong>Your personal RSS link for this blog's group:</strong>
+	    <a href="{personal_rss}">{personal_rss}</a>
+	  </p>
+	  <p>
+	    Subscribe to this in your RSS reader, and it will include
+	    posts from all members of the group, including yourself.
+	  </p>
+	  <p>
+	    Keep this secret! Anyone you share it with can read the
+	    entire group's posts, and can alter your settings.
+	  </p>
+	  <p>
+	    It's safe enough to share with your RSS reader because
+	    there is little choice.
+	  </p>
+	</div>
+
     </form>
     
 <pre id="output">

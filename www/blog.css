@@ -1,3 +1,8 @@
 div.field { line-height: 1.5em }
 
 #rss { width: 500px }
+
+.authentication > div { margin-left: 10px; padding-left: 5px; border-left: thin solid lightgray;
+			display: none }
+
+.personalrss { margin-top: 2em; padding: 5px; border: medium inset lightgray }
