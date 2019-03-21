@@ -49,7 +49,7 @@ def rss_groups(group_id, auth_string):
     entries, rssentries = get_entries(rssgroup.users, cursor)
 
     xml = rss_io.feedparser_to_rss2(rssgroup.name,
-                                    "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}".format(group_id),
+                                    "https://eric.willisson.org/rss-groups/rss-groups.cgi?id={}&auth={}".format(group_id, auth_string),
                                     "First try at a combined feed",
                                     entries, rssentries)
 

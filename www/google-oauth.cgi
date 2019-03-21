@@ -4,19 +4,11 @@ import google.oauth2.credentials
 import google_auth_oauthlib.flow
 
 import auth
+import constants
 import group.group
 import http.cookies
 
 import cgi, cgitb
-
-CLIENT_SECRET = "/var/local/rss-groups/client_secret_blogger_interface.json"
-#SCOPES = ["profile", "email", "https://www.googleapis.com/auth/blogger"]
-SCOPES = [
-    "https://www.googleapis.com/auth/blogger",
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/userinfo.profile",
-    "openid"
-]
 
 
 def not_authorized():
@@ -34,8 +26,8 @@ def login(user_id, auth_string, token, url):
         return
 
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        CLIENT_SECRET,
-        scopes = SCOPES)
+        constants.CLIENT_SECRET,
+        scopes = constants.SCOPES)
     flow.redirect_uri = "https://eric.willisson.org/rss-groups/google-save-login.cgi"
 
     authorization_url, state = flow.authorization_url(

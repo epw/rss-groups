@@ -4,6 +4,7 @@ import google.oauth2.credentials
 import google_auth_oauthlib.flow
 
 import auth
+import constants
 import group.group
 import http.cookies
 import json
@@ -12,23 +13,13 @@ import os
 import cgi, cgitb
 cgitb.enable()
 
-CLIENT_SECRET = "/var/local/rss-groups/client_secret_blogger_interface.json"
-#SCOPES = ["profile", "email", "https://www.googleapis.com/auth/blogger"]
-SCOPES = [
-    "https://www.googleapis.com/auth/blogger",
-    "https://www.googleapis.com/auth/userinfo.email",
-    "https://www.googleapis.com/auth/userinfo.profile",
-    "openid"
-]
-SERVER = "https://eric.willisson.org"
-
 #print("Content-Type: text/plain\n")
 
 
 def server_url(path):
     if path[0] == "/":
-        return SERVER + path
-    return SERVER + os.environ.get("SCRIPT_NAME").rsplit("/", 1)[0] + "/" + path
+        return constants.SERVER + path
+    return constants.SERVER + os.environ.get("SCRIPT_NAME").rsplit("/", 1)[0] + "/" + path
 
 
 def credentials_to_dict(credentials):
@@ -57,7 +48,7 @@ def page():
     state = row[0]
     
     flow = google_auth_oauthlib.flow.Flow.from_client_secrets_file(
-        CLIENT_SECRET, scopes=SCOPES, state=state)
+        constants.CLIENT_SECRET, scopes=constants.SCOPES, state=state)
     flow.redirect_uri = server_url("google-save-login.cgi")
     flow.fetch_token(authorization_response=server_url(os.environ.get("REQUEST_URI")))
 
