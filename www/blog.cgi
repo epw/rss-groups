@@ -16,6 +16,12 @@ def get_group_id(cursor, user_id):
     return row[0]
 
 
+def string_or_nothing(s):
+    if s:
+        return s
+    return ""
+
+
 def wordpress_webhook_url(user_id, group_id, auth_string):
     return ("https://eric.willisson.org/rss-groups/wordpress-webhook.cgi?"
             + urllib.parse.urlencode({"id": group_id, "auth": auth_string}))
@@ -39,7 +45,7 @@ def page(user_id, auth_string):
 
     format_args = {"id": user.user_id,
                    "name": user.name,
-                   "rss": user.rss,
+                   "rss": string_or_nothing(user.rss),
                    "type": user.blog_type,
                    "auth": user.auth(),
                    "personal_rss": user.link(group_id),

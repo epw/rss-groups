@@ -18,10 +18,23 @@
       <input type="hidden" name="id" value="{id}">
       <input type="hidden" name="auth" value="{auth}">
 
-      <div class="field"><span class="fieldlabel">Name:</span> <input id="name" name="name" value="{name}"></div>
+      <div class="field"><span class="fieldlabel">The name you will be identified by in the group RSS feed:</span> <input id="name" name="name" value="{name}"></div>
 
-      <div class="field"><span class="fieldlabel">RSS or Blog URL:</span> <input id="rss" name="rss" value="{rss}"></div>
-      <div class="field"><span class="fieldlabel">Blog type:</span>
+      <div class="field"><span class="fieldlabel">RSS or Blog URL:</span> <input id="rss" name="rss" value="{rss}">
+	<div>
+	  If you have a public RSS feed, or a Wordpress blog, put the
+	  link you would subscribe to with an RSS reader above. If you
+	  have a Blogger blog and it is not public, then put its main
+	  domain here (usually something like <code>https://myblog.blogspot.com</code>)
+	</div>
+      </div>
+      <div class="field">
+	<div>Now, identify your blog to the server, as a general RSS
+	feed, a Wordpress blog, or a Blogger blog, for further
+	instructions. If you have a blog which is none of these, then
+	  talk to Eric for support.
+	</div>
+	<span class="fieldlabel">Blog type:</span>
 	<input type="hidden" id="blogtypehidden" name="blogtypehidden" value="{type}">
 	<select id="type" name="type">
 	  <option value="rss">RSS</option>
@@ -79,7 +92,7 @@
 	</div>
       </div>
 
-	<div class="submit"><input type="submit" value="Change"></div>
+	<div class="submit"><input type="submit" value="Save changes"></div>
 
 	<div class="personalrss">
 	  <p>
