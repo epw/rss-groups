@@ -6,10 +6,10 @@
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js">
     </script>
-    <script src="https://apis.google.com/js/client:platform.js?onload=start" async defer>
+    <script src="https://apis.google.com/js/client:platform.js?onload=start" defer>
     </script>
   
-    <script src="blog.js" async defer></script>
+    <script src="blog.js" defer></script>
   </head>
   <body>
     <h1>{name}</h1>
@@ -30,8 +30,9 @@
 	</select>
 	<div class="authentication">
 	  <div class="google">
-	    <button id="googlesignin">Sign in</button>
-	  </div>
+	    <!--	    <button id="googlesignin">Sign in</button>-->
+	    <a href="google-oauth.cgi?id={id}&auth={auth}">Sign in</a>
+	 </div>
 	</div>
       </div>
 

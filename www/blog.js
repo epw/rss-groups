@@ -1,22 +1,34 @@
 function on_google_sign_in(auth_result) {
     console.log("on_google_sign_in");
+    console.log(auth_result);
     if (!auth_result["code"]) {
 	console.error(["Error with auth_result", auth_result]);
 	return;
     }
-    $("#googlesignin").value("Signed in");
+    $("#googlesignin").text("Signed in");
     $.ajax({
 	type: "POST",
 	url: "https://eric.willisson.org/rss-groups/google-login.cgi",
 	headers: {
-	    "X-Requested-With": "XMLHttpRequest"
+	    "X-Requested-With": "XMLHttpRequest",
 	},
-	contentType: "application/octet-stream; charset=utf-8",
-	success: function(result) {
-	    console.log("Got blog: " + result);
+//	contentType: "application/octet-stream; charset=utf-8",
+	contentType: "application/x-www-form-urlencoded; charset=utf-8",
+	success: function(result, status) {
+	    console.log(["Got blog: ", result]);
+	    console.log(["Status", status]);
 	},
-	processData: false,
-	data: authResult["code"]
+	error: function(request, status, err) {
+	    console.error("Error");
+	    console.error(["request", request]);
+	    console.error(["status", status]);
+	    console.error(["err", err]);
+	},
+	processData: true,
+	data: {idtoken: auth_result["code"],
+	       id: document.forms[0].elements.id.value,
+	       auth: document.forms[0].elements.auth.value,
+	       url: document.forms[0].elements.rss.value},
     });
 }
 
@@ -50,6 +62,7 @@ function init() {
     });
     $("#googlesignin").click(function() {
 	auth2.grantOfflineAccess().then(on_google_sign_in);
+	return false;
     });
 }
 

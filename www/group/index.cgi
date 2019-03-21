@@ -38,7 +38,8 @@ def page():
             return
 
     rssgroup = group.get_group(int(group_id))
-    format_args = {"name": rssgroup.name, "members": member_table(rssgroup.users, group_id)}
+    format_args = {"name": rssgroup.name,
+                   "members": member_table(rssgroup.users, group_id)}
 
     with open("index.template.html") as f:
         print(f.read().format(**format_args))
