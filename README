@@ -3,10 +3,7 @@ TODO:
 - Support differing public/private levels
 - Clean up code enough to trust first group
 - Clean up API (URLs)
-- Get Blogger authentication working right (and what does that actually mean?)
-  - It looks like the only way will be to have the particular user
-     authenticate this server to read. This means that users will have
-     to have their own pages where they can edit stuff.
+- Make Blogger oauth2 refresh work
 
 NICE
 - See how you can add Like buttons. Maybe group-specific images
@@ -28,4 +25,7 @@ DONE
   generated RSS URL. Make rss-groups.cgi require a matching
   username/password to return the results.
 - Get Wordpress authentication working right (crazy webhook thing instead of logins)
-
+- Get Blogger authentication working right (and what does that actually mean?)
+  - It looks like the only way will be to have the particular user
+     authenticate this server to read. This means that users will have
+     to have their own pages where they can edit stuff.
