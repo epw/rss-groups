@@ -63,6 +63,39 @@
 	  less of this person's posts")</li>
 	<li>Integration with RSS readers' "shared" feeds</li>
 	<li>An optional "+1" system</li>
+	<li>Support for lots more locked-down blogs. Tumblr, maybe</li>
       </ul>
+    </p>
+
+    <h2>So, what's the security story?</h2>
+    <p>
+      The overall idea is that this server could be run by anyone
+      (perhaps someone could set up a service to provide it, to lower
+      the barrier to entry). Whoever controls the server, of course,
+      will need to be trusted by the group. Members of the group also
+      can easily show someone else their feeds, so there will need to
+      be intra-group trust.
+    </p>
+    <p>
+      Individual blogs within a group are the only accounts on the
+      system. If you have many individual groups, you're treated
+      completely differently for each one. In each group, for each
+      blog, you have a randomly-generated authorization string. This
+      is immutable and is required both to make changes to your
+      account settings, and to view the RSS Group itself (unless it is
+      public). The authorization string should be unguessable, but if
+      it's stolen, the thief has full access to everything you
+      would. The string is sometimes stored in URL parameters and
+      sometimes in short-lived cookies.
+    </p>
+    <p>
+      There is no special encryption added anywhere. Everything should
+      be done over HTTPS.
+    </p>
+    <p>
+      If you use a Blogger blog, you have to sign in with Google, and
+      the server uses standard OAuth2 practices to keep a token alive
+      so it can keep reading from the blog.
+    </p>
   </body>
 </html>
