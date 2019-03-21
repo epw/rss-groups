@@ -26,7 +26,10 @@ def get_entries(users, cursor):
                 parsed = feedparser.parse(row[0])
                 entries.append(add_source(parsed.entries[0], parsed))
         elif users[user].blog_type == 'blogger':
-            rssentries.extend(blogger.rss(cursor, users[user].user_id, users[user].rss))
+            try:
+                rssentries.extend(blogger.rss(cursor, users[user].user_id, users[user].rss))
+            except blogger.google.auth.exceptions.RefreshError:
+                pass
         else:
             parsed = feedparser.parse(users[user].rss)
             entries.extend([add_source(entry, parsed) for entry in parsed.entries])
