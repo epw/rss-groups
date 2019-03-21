@@ -26,12 +26,7 @@ def get_entries(users, cursor):
                 parsed = feedparser.parse(row[0])
                 entries.append(add_source(parsed.entries[0], parsed))
         elif users[user].blog_type == 'blogger':
-            try:
-                rssentries = blogger.rss(users[user].rss)
-            except blogger.client.AccessTokenRefreshError:
-                print ('<?xml version="1.0"><error>The credentials have been revoked or expired, please re-run'
-                       'the application to re-authorize</error>')
-                exit()
+            rssentries.extend(blogger.rss(cursor, users[user].user_id, users[user].rss))
         else:
             parsed = feedparser.parse(users[user].rss)
             entries.extend([add_source(entry, parsed) for entry in parsed.entries])

@@ -1,25 +1,43 @@
 #! /usr/bin/env python3
 
-from oauth2client import client
-from googleapiclient import sample_tools
+import google.oauth2.credentials
+import googleapiclient.discovery
+
+#from oauth2client import client
+#from googleapiclient import sample_tools
+import json
 import make_rss_item
 
 
-def get_blog(url):
-  # Authenticate and construct service.
-  service, flags = sample_tools.init(
-    ["blogger", "--noauth_local_webserver"], 'blogger', 'v3', __doc__, "/home/eric/projects/rss-groups/client_secrets.json",
-    scope='https://www.googleapis.com/auth/blogger')
+def get_blog(cursor, user_id, url):
+    cursor.execute("SELECT credentials, rss FROM users WHERE id = %s", (user_id,))
+    row = cursor.fetchone()
 
-  blogs = service.blogs()
+    credentials = google.oauth2.credentials.Credentials(
+        **json.loads(row[0]))
 
-  return blogs.getByUrl(url=url).execute()
+    blogger = googleapiclient.discovery.build(
+        "blogger", "v3", credentials=credentials)
+    return blogger, blogger.blogs().getByUrl(url=row[1]).execute()
+
+
+# def get_blog(url):
+#   # Authenticate and construct service.
+#   service, flags = sample_tools.init(
+#     ["blogger", "--noauth_local_webserver"], 'blogger', 'v3', __doc__, "/home/eric/projects/rss-groups/client_secrets.json",
+#     scope='https://www.googleapis.com/auth/blogger')
+
+#   blogs = service.blogs()
+
+#   return blogs.getByUrl(url=url).execute()
+
+
   
 
-def rss(url):
-  blog = get_blog(url)
+def rss(cursor, user_id, url):
+  blogger, blog = get_blog(cursor, user_id, url)
   
-  posts = service.posts().list(blogId=blog["id"]).execute()
+  posts = blogger.posts().list(blogId=blog["id"]).execute()
 
   items = []
   for post in posts["items"]:
