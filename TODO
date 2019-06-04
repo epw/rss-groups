@@ -1,15 +1,17 @@
 TODO:
 
-- Get Blogger authentication working right (and what does that actually mean?)
-- Get Wordpress authentication working right (so logins, then?)
+- Make Blogger oauth2 refresh work?
 
 NICE
+- Clean up API (URLs nicer)
+- HTTPS Everywhere
 - See how you can add Like buttons. Maybe group-specific images
   that are at like rss-image.cgi and wrap a link around that
   increments then redirects back?
 - Delete users and groups
 - Investigate the RSS feed that RSS readers tend to produce for
   "share" action, see if that needs any special support
+- Fix sorting across Wordpress and Blogger. Looks like different servers report different times?
 
 DONE
 - Make useful author bylines that indicate the origin properly (it's OK)
@@ -21,3 +23,10 @@ DONE
   generate it, maybe. Show these in the group UI, for now, and the
   generated RSS URL. Make rss-groups.cgi require a matching
   username/password to return the results.
+- Get Wordpress authentication working right (crazy webhook thing instead of logins)
+- Get Blogger authentication working right (and what does that actually mean?)
+  - It looks like the only way will be to have the particular user
+     authenticate this server to read. This means that users will have
+     to have their own pages where they can edit stuff.
+- Support differing public/private levels
+- Clean up code enough to trust first group (good enough I think, but needs more HTTPS)

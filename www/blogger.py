@@ -1,40 +1,60 @@
 #! /usr/bin/env python3
 
-from oauth2client import client
-from googleapiclient import sample_tools
-import PyRSS2Gen as RSS2
-import datetime
-import dateparser
-import pytz
+import google.oauth2.credentials
+import googleapiclient.discovery
+
+#from oauth2client import client
+#from googleapiclient import sample_tools
+import json
+import make_rss_item
+
+import sys
 
 
-def rss():
-  # Authenticate and construct service.
-  service, flags = sample_tools.init(
-    ["blogger", "--noauth_local_webserver"], 'blogger', 'v3', __doc__, "/home/eric/projects/rss-groups/client_secrets.json",
-    scope='https://www.googleapis.com/auth/blogger')
+def get_blog(cursor, user_id, url):
+    cursor.execute("SELECT credentials, rss FROM users WHERE id = %s", (user_id,))
+    row = cursor.fetchone()
 
-  blogs = service.blogs()
+    credentials = google.oauth2.credentials.Credentials(
+        **json.loads(row[0]))
 
-#      blog = blogs.getByUrl(url="https://ericpublicblog.blogspot.com").execute()
-  blog = blogs.getByUrl(url="https://ericrssexperiments.blogspot.com").execute()
+    blogger = googleapiclient.discovery.build(
+        "blogger", "v3", credentials=credentials)
+    return blogger, blogger.blogs().getByUrl(url=row[1]).execute()
 
-#      code.interact(local={"client": client, "sample_tools": sample_tools,
-#                           "service": service, "users": users, "thisuser": thisuser,
-#                           "blogs": blogs, "thisusersblogs": thisusersblogs})
-#      exit()
 
-  posts = service.posts().list(blogId=blog["id"]).execute()
+# def get_blog(url):
+#   # Authenticate and construct service.
+#   service, flags = sample_tools.init(
+#     ["blogger", "--noauth_local_webserver"], 'blogger', 'v3', __doc__, "/home/eric/projects/rss-groups/client_secrets.json",
+#     scope='https://www.googleapis.com/auth/blogger')
 
-  items = []
-  for post in posts["items"]:
-    items.append(RSS2.RSSItem(
-      title=post["title"],
-      author=blog["name"] + " - " + post["author"]["displayName"],
-      link=post["url"],
-      description=post["content"],
-      guid=post["url"],
-      pubDate=dateparser.parse(post["published"]).replace(tzinfo=pytz.utc)))
+#   blogs = service.blogs()
 
-  return items
+#   return blogs.getByUrl(url=url).execute()
+
+
+  
+
+def rss(cursor, user_id, url):
+    # try:
+    #     blogger, blog = get_blog(cursor, user_id, url)
+    # except blogger.google.auth.exceptions.RefreshError:
+    #     sys.stderr.write("Refresh error")
+    #     raise
+    blogger, blog = get_blog(cursor, user_id, url)
+  
+    posts = blogger.posts().list(blogId=blog["id"]).execute()
+
+    items = []
+    for post in posts["items"]:
+        items.append(make_rss_item.make_item(
+            title=post["title"],
+            blog_name=blog["name"],
+            author_name=post["author"]["displayName"],
+            url=post["url"],
+            content=post["content"],
+            pubdate=post["published"]))
+
+    return items
 

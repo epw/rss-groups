@@ -6,14 +6,28 @@ import PyRSS2Gen as RSS2
 import pytz
 
 
+def get_content(entry):
+    if entry.has_key("content"):
+        return entry.content[0].value
+    if entry.has_key("summary"):
+        return entry.summary
+    return "NO CONTENT"
+
+
+def get_author(entry):
+    if "publisher" in dir(entry):
+        return entry.publisher + " - " + entry.author
+    return entry.author
+
+
 def rss2_item_from_entry(entry):
     return RSS2.RSSItem(
         title = entry.title,
 #        title = entry.title,
         link = entry.link,
-        description = entry.content[0].value,
+        description = get_content(entry),
 #        description = "entry.content[0]",
-        author = entry.publisher + " - " + entry.author,
+        author = get_author(entry),
         guid = entry.link,
         pubDate = datetime.datetime(
             entry.published_parsed[0],
