@@ -8,6 +8,8 @@ import googleapiclient.discovery
 import json
 import make_rss_item
 
+import sys
+
 
 def get_blog(cursor, user_id, url):
     cursor.execute("SELECT credentials, rss FROM users WHERE id = %s", (user_id,))
@@ -35,19 +37,24 @@ def get_blog(cursor, user_id, url):
   
 
 def rss(cursor, user_id, url):
-  blogger, blog = get_blog(cursor, user_id, url)
+    # try:
+    #     blogger, blog = get_blog(cursor, user_id, url)
+    # except blogger.google.auth.exceptions.RefreshError:
+    #     sys.stderr.write("Refresh error")
+    #     raise
+    blogger, blog = get_blog(cursor, user_id, url)
   
-  posts = blogger.posts().list(blogId=blog["id"]).execute()
+    posts = blogger.posts().list(blogId=blog["id"]).execute()
 
-  items = []
-  for post in posts["items"]:
-    items.append(make_rss_item.make_item(
-      title=post["title"],
-      blog_name=blog["name"],
-      author_name=post["author"]["displayName"],
-      url=post["url"],
-      content=post["content"],
-      pubdate=post["published"]))
+    items = []
+    for post in posts["items"]:
+        items.append(make_rss_item.make_item(
+            title=post["title"],
+            blog_name=blog["name"],
+            author_name=post["author"]["displayName"],
+            url=post["url"],
+            content=post["content"],
+            pubdate=post["published"]))
 
-  return items
+    return items
 

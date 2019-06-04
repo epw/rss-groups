@@ -6,6 +6,7 @@ import rss_io
 import blogger
 import group.group
 import os
+import sys
 
 import cgi, cgitb
 
@@ -29,6 +30,7 @@ def get_entries(users, cursor):
             try:
                 rssentries.extend(blogger.rss(cursor, users[user].user_id, users[user].rss))
             except blogger.google.auth.exceptions.RefreshError:
+                sys.stderr.write("Refresh error\n")
                 pass
         else:
             parsed = feedparser.parse(users[user].rss)
