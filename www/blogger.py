@@ -20,7 +20,10 @@ def get_blog(cursor, user_id, url):
 
     blogger = googleapiclient.discovery.build(
         "blogger", "v3", credentials=credentials)
-    return blogger, blogger.blogs().getByUrl(url=row[1]).execute()
+    url = row[1]
+    if not url.startswith("http"):
+        url = "https://" + url
+    return blogger, blogger.blogs().getByUrl(url=url).execute()
 
 
 # def get_blog(url):
